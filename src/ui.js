@@ -12,7 +12,7 @@ export const Ui = {
     /**
      * 現在のボードの状況を表示する。
      */
-    printBoard: function (board) {
+    printBoard(board) {
         for (let x = 0; x < board.verticalLength; x++) {
             for (let y = 0; y < board.horizontalLength; y++) {
                 let oneSquare = board.gameBoardArray[x][y];
@@ -23,7 +23,7 @@ export const Ui = {
     /**
      * 結果を表示する。
      */
-    printResultMessage: function (result, playerId) {
+    printResultMessage(result, playerId) {
         switch (result) {
             case GameState.END:
                 window.alert(`${PlayerChar[playerId]}の勝ちです。`)
@@ -40,7 +40,7 @@ export const Ui = {
     /**
      * プレイヤーに置けないことを説明する。
      */
-    printIsAlreadyPutMessage: function () {
+    printIsAlreadyPutMessage() {
         window.alert('そこはすでに埋まっています。');
     }
 };

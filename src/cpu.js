@@ -14,7 +14,6 @@ class Cpu {
      * @throws {Error} Cpuを継承してselectメソッドを実装しない場合にスローする
      */
     select() {
-        //呼ばれない限り例外発生しないのでcatchしなくても良い
         throw Error('不正なCPUが呼ばれました。');
     }
 }
