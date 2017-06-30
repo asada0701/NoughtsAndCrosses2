@@ -11,13 +11,16 @@ export const GameState = Object.freeze({ END: 'end', NOT_END: 'notEnd', DRAW: 'd
  * @author asada
  */
 export class OXGame {
-    constructor(board, players) {
+    constructor(board, players, rootNode) {
         this.board = board;
         this.players = players;
 
         const el = createDOM(this);
-        document.getElementById('root').appendChild(el);
-
+        if (rootNode !== undefined) {
+            console.log('未実装です。ごめんね。');
+        } else {
+            document.getElementById('root').appendChild(el);
+        }
         this.init();
     }
 
