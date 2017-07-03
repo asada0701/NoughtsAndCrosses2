@@ -1,5 +1,5 @@
-var assert = require("power-assert");
-var localmodule = require('../src/localmodule');
+const assert = require("assert");
+const localmodule = require('../src/localmodule');
 
 //describeはフォルダ、第一引数はフォルダ名のような感覚。
 describe('local module', function () {     // "describe"を記述すると

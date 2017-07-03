@@ -13,7 +13,14 @@ const config = {
     },
     module: {
         loaders: [
-            { test: /_test\.js$/, loader: "webpack-espower-loader" }
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: "babel",
+                query: {
+                    presets: ['react', 'es2015']
+                }
+            }
         ]
     }
 };
