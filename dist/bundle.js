@@ -90,16 +90,13 @@ const GameState = Object.freeze({ END: 'end', NOT_END: 'notEnd', DRAW: 'draw' })
  * @author asada
  */
 class OXGame {
-    constructor(board, players, rootNode) {
+    constructor(board, players, rootNode = document.getElementById('root')) {
         this.board = board;
         this.players = players;
 
         const el = createDOM(this);
-        if (rootNode !== undefined) {
-            console.log('未実装です。ごめんね。');
-        } else {
-            document.getElementById('root').appendChild(el);
-        }
+        rootNode.appendChild(el);
+
         this.init();
     }
 
@@ -127,7 +124,6 @@ class OXGame {
      * 勝負の結果がついたか判定する
      */
     judge() {
-        //TODO ここの処理は二回書いてあるので、一回にしたい。
         this.state = this.board.checkGameEnd(this.nowPlayer.playerId);
         __WEBPACK_IMPORTED_MODULE_0__ui_js__["a" /* Ui */].printBoard(this.board);
         switch (this.state) {
@@ -152,27 +148,8 @@ class OXGame {
             this.nowPlayer.select(this.board);
             this.board.checkGameEnd(this.nowPlayer.playerId);
             __WEBPACK_IMPORTED_MODULE_0__ui_js__["a" /* Ui */].printBoard(this.board);
+            this.judge();
         }
-
-        //TODO ここの処理は二回書いてあるので、一回にしたい。
-        this.state = this.board.checkGameEnd(this.nowPlayer.playerId);
-        __WEBPACK_IMPORTED_MODULE_0__ui_js__["a" /* Ui */].printBoard(this.board);
-        switch (this.state) {
-            case GameState.END: {
-                __WEBPACK_IMPORTED_MODULE_0__ui_js__["a" /* Ui */].printResultMessage(GameState.END, this.nowPlayer.playerId);
-                return;
-            }
-            case GameState.NOT_END: {
-                break;
-            }
-            case GameState.DRAW: {
-                __WEBPACK_IMPORTED_MODULE_0__ui_js__["a" /* Ui */].printResultMessage(GameState.DRAW);
-                return;
-            }
-            default:
-                throw new Error('checkGameEndの戻り値が予期されないものでした。');
-        }
-        this.nowPlayer = this.getNextPlayer();
     }
 
     getNextPlayer() {
@@ -249,24 +226,21 @@ function createGameBoard(oxGame) {
     const fragment = document.createDocumentFragment();
 
     //pタグで段落をつける
-    let pTag = document.createElement('p');
-    for (let i = 0; i < oxGame.board.verticalLength * oxGame.board.horizontalLength; i++) {
-        if (i % oxGame.board.horizontalLength === 0) {
-            pTag = document.createElement('p');
+    for (let x = 0; x < oxGame.board.verticalLength; x++) {
+        let pTag = document.createElement('p');
+        for (let y = 0; y < oxGame.board.horizontalLength; y++) {
+            let button = document.createElement('button');
+            button.id = `${(x * oxGame.board.horizontalLength) + y}`
+            //buttonの表示でプレイヤーキャラを使う
+            button.innerHTML = __WEBPACK_IMPORTED_MODULE_0__ui_js__["b" /* PlayerChar */][0];
+            button.addEventListener('click', () => {
+                if (oxGame.state === GameState.NOT_END) {
+                    oxGame.nowPlayer.select(oxGame.board, __WEBPACK_IMPORTED_MODULE_0__ui_js__["a" /* Ui */], x, y);
+                    oxGame.judge();
+                }
+            });
+            pTag.appendChild(button);
         }
-
-        let button = document.createElement('button');
-        button.id = `${i}`;
-        //buttonの表示でプレイヤーキャラを使う
-        button.innerHTML = __WEBPACK_IMPORTED_MODULE_0__ui_js__["b" /* PlayerChar */][0];
-        button.addEventListener('click', () => {
-            if (oxGame.state === GameState.NOT_END) {
-                oxGame.nowPlayer.select(oxGame.board, __WEBPACK_IMPORTED_MODULE_0__ui_js__["a" /* Ui */], Math.floor(i / oxGame.board.verticalLength), i % oxGame.board.verticalLength);
-                oxGame.judge();
-            }
-        });
-
-        pTag.appendChild(button);
         fragment.appendChild(pTag);
     }
     return fragment;

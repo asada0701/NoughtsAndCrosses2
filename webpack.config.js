@@ -10,6 +10,11 @@ const config = {
         path: path.resolve(__dirname, 'dist'),
         //出力するファイル名
         filename: 'bundle.js'
+    },
+    module: {
+        loaders: [
+            { test: /_test\.js$/, loader: "webpack-espower-loader" }
+        ]
     }
 };
 
