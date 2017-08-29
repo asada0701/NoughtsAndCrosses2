@@ -11,17 +11,8 @@ const config = {
         //出力するファイル名
         filename: 'bundle.js'
     },
-    module: {
-        loaders: [
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                loader: "babel",
-                query: {
-                    presets: ['react', 'es2015']
-                }
-            }
-        ]
+    resolve: {
+        extensions: ['.webpack.js', '.js']
     }
 };
 
